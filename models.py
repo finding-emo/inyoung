@@ -18,15 +18,15 @@ custom_kw_extractor = yake.KeywordExtractor(
 )
 
 
-def model(prompt: str) -> list:
+def model(text: str) -> list:
     """
-    ``prompt``: ``str`` type. The prompt to be processed.
+    ``text``: ``str`` type. The text to be processed.
 
     ``return``: ``list[dict[str, object]]`` type.
     The list of extracted keywords and their scores.
     The higher the score, the more relevant the keyword.
     """
-    keywords = custom_kw_extractor.extract_keywords(prompt)
+    keywords = custom_kw_extractor.extract_keywords(text)
 
     extracted_keywords = [
         {

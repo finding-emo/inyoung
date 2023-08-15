@@ -16,9 +16,9 @@ class ModelHandler(BaseHTTPRequestHandler):
         request_body = request_body.decode()
         request_body = loads(request_body)
 
-        prompt = request_body["text"]
+        text = request_body["text"]
 
-        model_output = model(prompt)
+        model_output = model(text)
         response_body = {"keywords": model_output}
 
         self.send_response(200)
