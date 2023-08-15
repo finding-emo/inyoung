@@ -29,7 +29,7 @@ def model(prompt: str) -> list:
     extracted_keywords = [
         {
             "keyword": kw,
-            "score": score,
+            "score": 1 - score,
         }
         for kw, score in keywords
     ]
