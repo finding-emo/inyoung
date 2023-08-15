@@ -38,3 +38,7 @@ def model(prompt: str) -> list:
 
     return extracted_keywords
 
+
+if __name__ == "__main__":
+    text = input("text 입력: ")
+    print(model(text))
