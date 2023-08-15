@@ -16,14 +16,15 @@ class ModelHandler(BaseHTTPRequestHandler):
         request_body = request_body.decode()
         request_body = loads(request_body)
 
-        prompt = request_body["prompt"]
+        prompt = request_body["text"]
 
         model_output = model(prompt)
+        response_body = {"keywords": model_output}
 
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
-        self.wfile.write(dumps(model_output).encode())
+        self.wfile.write(dumps(response_body).encode())
 
 
 with HTTPServer(("", PORT), ModelHandler) as httpd:
