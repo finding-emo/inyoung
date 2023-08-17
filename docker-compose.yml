@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  ybigta-emoticon-keyword-model-server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: kimhajin/ybigta-emoticon-keyword-model-server
+    container_name: ybigta-emoticon-keyword-model-server
+    ports:
+      - "9000:9000"
