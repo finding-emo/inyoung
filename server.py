@@ -5,7 +5,10 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import dumps, loads
 
-from models import model
+from extract_keywords import extract_keywords
+from extract_emotions import extract_emotions
+from extract_gestures import extract_gestures
+from generate_prompt import generate_prompt
 
 PORT = 9000
 
@@ -16,15 +19,43 @@ class ModelHandler(BaseHTTPRequestHandler):
         request_body = request_body.decode()
         request_body = loads(request_body)
 
-        text = request_body["text"]
-
-        model_output = model(text)
-        response_body = {"keywords": model_output}
-
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
-        self.wfile.write(dumps(response_body).encode())
+
+        if self.path == "/keywords":
+            text = request_body["text"]
+
+            model_output = extract_keywords(text)
+            response_body = {"keywords": model_output}
+
+            self.wfile.write(dumps(response_body).encode())
+
+        elif self.path == "/prompt":
+            text = request_body["text"]
+            translatedKeywords = request_body["translatedKeywords"]
+            survey = request_body["survey"]
+
+            emotions = extract_emotions(text)
+            gestures = extract_gestures(text)
+
+            (prompts, negativePrompt) = generate_prompt(
+                keywords=translatedKeywords,
+                emotions=emotions,
+                gestures=gestures,
+                type=survey["iconType"],
+                mood=survey["iconMood"],
+                color=survey["iconColor"],
+            )
+            response_body = {
+                "prompts": prompts,
+                "negativePrompt": negativePrompt,
+            }
+
+            self.wfile.write(dumps(response_body).encode())
+
+        else:
+            raise Exception("Invalid path")
 
 
 with HTTPServer(("", PORT), ModelHandler) as httpd:
