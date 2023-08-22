@@ -1,6 +1,6 @@
 import yake
 
-language = "ko"
+language = "en"
 max_ngram_size = 1
 deduplication_threshold = 0.9
 deduplication_algo = "lev"
