@@ -45,16 +45,20 @@ def generate_prompt(
     emotion = " and ".join(emotions)
     gesture = " and ".join(gestures)
 
-    styles = ("a chat emoji with a", "an illustration of a", "a")
+    styles = (
+        "an illustration of a single",
+        "an illustration of a single",
+        "an illustration of a single",
+    )
 
     for style in styles:
         prompt = f"""
 {style} {types[type]},
 with a {moods[mood]} mood,
 in {colors[color]},
-in a situation about {keyword},
-expressing emotions involving {emotion},
-with gestures or facial expressions {gesture}
+in explaining {keyword},
+with emotions being {emotion},
+with gestures being {gesture}
 """
 
         prompts.append(prompt)
@@ -69,11 +73,7 @@ distortion,
 disfigured,
 poorly drawn face,
 poorly drawn hands,
-low quality,
-low contrast,
-draft,
-amateur,
-cut off,
-cropped"""
+collage,
+"""
 
     return (prompts, negative_prompt)
